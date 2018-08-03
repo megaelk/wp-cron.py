@@ -39,8 +39,10 @@ s = subprocess.check_output([WP_CLI_PATH, '--path=%s' % WP_DIR, '--skip-themes',
 	if ( ! is_multisite() ) {
 		$urls[] = home_url();
 	} else {
-		foreach ( wp_get_sites() as $blog ) {
-			$urls[] = get_home_url( $blog['blog_id'] );
+		$subsites=get_sites();
+		foreach ( $subsites as $subsite ) {
+			$subsite_id = get_object_vars($subsite)['blog_id'];
+			$urls[] =  get_blog_details($subsite_id)->siteurl;
 		}
 	}
 
